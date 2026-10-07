@@ -16,6 +16,8 @@
             min-height: 100vh;
         }
         .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px; }
+        
+        /* ヘッダー */
         .header-panel { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 20px; 
@@ -24,20 +26,22 @@
             align-items: center; 
             justify-content: space-between;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            backdrop-filter: blur(5px);
         }
         .profile-area { display: flex; align-items: center; gap: 15px; }
         .user-icon { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #1a73e8; object-fit: cover; background: #eee; }
         .user-name { font-size: 1.3rem; font-weight: bold; }
-        .settings-btn { background: none; border: none; font-size: 1.6rem; cursor: pointer; padding: 5px; }
+        .settings-btn { background: none; border: none; font-size: 1.8rem; cursor: pointer; padding: 5px; }
+        
+        /* パネル共通 */
         .panel { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 25px; 
             border-radius: 12px; 
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            backdrop-filter: blur(5px);
         }
         h2 { font-size: 1.3rem; margin-bottom: 15px; color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 5px; }
+        
+        /* 学習管理 */
         .dashboard { display: flex; gap: 20px; margin-bottom: 20px; background: #e8f0fe; padding: 15px; border-radius: 8px; }
         .stat-box { flex: 1; text-align: center; }
         .stat-val { font-size: 1.8rem; font-weight: bold; color: #1a73e8; }
@@ -47,12 +51,8 @@
         .course-item.completed { background-color: #f0fdf4; border-color: #bbf7d0; }
         .action-btn { background: #1a73e8; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .action-btn.undo { background: #dc2626; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; max-width: 400px; width: 90%; position: relative; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
-        .setting-group { margin-bottom: 15px; }
-        .setting-group label { display: block; font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
-        .setting-group input[type="text"], .setting-group input[type="file"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        
+        /* 単語帳 */
         .deck-create-area { display: flex; gap: 10px; margin-bottom: 15px; }
         .deck-input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
         .primary-btn { background: #1a73e8; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -67,19 +67,50 @@
         .word-card.flipped .back { display: block; }
         .card-del-btn { position: absolute; top: 4px; right: 6px; background: none; border: none; color: #ccc; cursor: pointer; font-size: 0.8rem; }
         .card-del-btn:hover { color: red; }
+
+        /* 【重要】はっきり見える設定画面（モーダル）の修正 */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.6) !important; /* 背景をしっかり暗くする */
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999 !important; /* 一番手前に持ってくる */
+        }
+        .modal-content { 
+            background: #ffffff !important; /* 完全な白色背景 */
+            padding: 30px; 
+            border-radius: 16px; 
+            max-width: 450px; 
+            width: 90%; 
+            position: relative; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* 影をつけて立体的に */
+            color: #333333;
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; border: none; background: none; color: #666; }
+        .setting-group { margin-bottom: 18px; text-align: left; }
+        .setting-group label { display: block; font-size: 0.95rem; margin-bottom: 6px; font-weight: bold; color: #333; }
+        .setting-group input[type="text"], .setting-group input[type="file"] { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; font-size: 0.95rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- ヘッダー -->
     <div class="header-panel">
         <div class="profile-area">
             <img id="display-icon" class="user-icon" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 24 24' fill='%23ccc'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" alt="Icon">
             <div id="display-name" class="user-name">受講生マイページ</div>
         </div>
+        <!-- ⚙️ボタン -->
         <button class="settings-btn" onclick="openModal()">⚙️</button>
     </div>
 
+    <!-- 学習管理 -->
     <div class="panel">
         <h2>学習進捗管理</h2>
         <div class="dashboard">
@@ -95,6 +126,7 @@
         <ul id="course-list" class="course-list"></ul>
     </div>
 
+    <!-- 単語帳 -->
     <div class="panel">
         <h2>自作カスタム単語帳</h2>
         <div class="deck-create-area">
@@ -111,24 +143,25 @@
     </div>
 </div>
 
+<!-- 【ポップアップする設定画面】 -->
 <div id="settings-modal" class="modal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">×</button>
-        <h3>デザイン設定</h3>
-        <br>
+        <h3 style="font-size: 1.3rem; margin-bottom: 15px; color:#1a73e8;">デザイン設定</h3>
+        
         <div class="setting-group">
             <label>名前の変更</label>
             <input type="text" id="input-name" placeholder="新しい名前を入力">
         </div>
         <div class="setting-group">
-            <label>マイアイコン画像（写真ファイルを選択）</label>
+            <label>マイアイコン画像（写真を選ぶ）</label>
             <input type="file" id="input-icon" accept="image/*" onchange="updateIcon(this)">
         </div>
         <div class="setting-group">
-            <label>ホームの背景画像（写真ファイルを選択）</label>
+            <label>ホームの背景画像（写真を選ぶ）</label>
             <input type="file" id="input-bg" accept="image/*" onchange="updateBackground(this)">
         </div>
-        <button class="primary-btn" style="width:100%; margin-top:10px;" onclick="saveProfileSettings()">設定を保存して閉じる</button>
+        <button class="primary-btn" style="width:100%; padding:12px; margin-top:10px; font-size:1rem;" onclick="saveProfileSettings()">設定を保存して閉じる</button>
     </div>
 </div>
 
@@ -138,9 +171,9 @@
         { id: "l2", title: "第2講：応用問題（第2章）" },
         { id: "l3", title: "第3講：総仕上げ確認テスト" }
     ];
-    let userProgress = JSON.parse(localStorage.getItem('user_lms_progress_v4')) || {};
+    let userProgress = JSON.parse(localStorage.getItem('user_lms_progress_v5')) || {};
 
-    let wordDecks = JSON.parse(localStorage.getItem('user_word_decks_v4')) || {
+    let wordDecks = JSON.parse(localStorage.getItem('user_word_decks_v5')) || {
         "社会": [ { f: "本能寺の変", b: "1582年" } ],
         "英語": [ { f: "apple", b: "りんご" } ],
         "理科": [ { f: "光合成", b: "二酸化炭素と水から酸素を作る" } ]
@@ -179,23 +212,5 @@
     }
 
     function toggleLMS(id) {
-        userProgress[id] = !userProgress[id];
-        localStorage.setItem('user_lms_progress_v4', JSON.stringify(userProgress));
-        renderLMS();
-    }
 
-    function renderDecks() {
-        const tabsContainer = document.getElementById('deck-tabs');
-        if(!tabsContainer) return;
-        tabsContainer.innerHTML = '';
-
-        Object.keys(wordDecks).forEach(name => {
-            const btn = document.createElement('button');
-            btn.className = `deck-tab ${name === currentDeckName ? 'active' : ''}`;
-            btn.innerText = name;
-            btn.onclick = () => { currentDeckName = name; renderDecks(); };
-            tabsContainer.appendChild(btn);
-        });
-
-        const inputZone = document.getElementById('card-input-zone');
 
