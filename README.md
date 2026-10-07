@@ -6,8 +6,6 @@
     <title>マイ学習管理 & 単語帳システム</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        
-        /* ユーザーが設定できる背景 */
         body { 
             background-color: #f5f7fa; 
             background-size: cover;
@@ -17,10 +15,7 @@
             padding: 30px; 
             min-height: 100vh;
         }
-
         .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px; }
-
-        /* ヘッダーエリア（アイコン・名前・設定） */
         .header-panel { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 20px; 
@@ -35,8 +30,6 @@
         .user-icon { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #1a73e8; object-fit: cover; background: #eee; }
         .user-name { font-size: 1.3rem; font-weight: bold; }
         .settings-btn { background: none; border: none; font-size: 1.6rem; cursor: pointer; padding: 5px; }
-
-        /* 各種メインパネル */
         .panel { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 25px; 
@@ -45,8 +38,6 @@
             backdrop-filter: blur(5px);
         }
         h2 { font-size: 1.3rem; margin-bottom: 15px; color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 5px; }
-
-        /* 学習管理ダッシュボード */
         .dashboard { display: flex; gap: 20px; margin-bottom: 20px; background: #e8f0fe; padding: 15px; border-radius: 8px; }
         .stat-box { flex: 1; text-align: center; }
         .stat-val { font-size: 1.8rem; font-weight: bold; color: #1a73e8; }
@@ -56,24 +47,18 @@
         .course-item.completed { background-color: #f0fdf4; border-color: #bbf7d0; }
         .action-btn { background: #1a73e8; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .action-btn.undo { background: #dc2626; }
-
-        /* モーダル（設定画面用） */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; max-width: 400px; width: 90%; position: relative; }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
         .setting-group { margin-bottom: 15px; }
         .setting-group label { display: block; font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
         .setting-group input[type="text"], .setting-group input[type="file"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-
-        /* 自作単語帳セクション */
         .deck-create-area { display: flex; gap: 10px; margin-bottom: 15px; }
         .deck-input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
         .primary-btn { background: #1a73e8; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        
         .deck-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
         .deck-tab { padding: 8px 16px; border: 1px solid #ccc; background: #fff; border-radius: 20px; cursor: pointer; white-space: nowrap; }
         .deck-tab.active { background: #1a73e8; color: white; border-color: #1a73e8; }
-        
         .card-add-area { display: flex; gap: 10px; margin-bottom: 15px; background: #f0f4f8; padding: 10px; border-radius: 6px; }
         .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .word-card { background: #fff; border: 1px solid #e0e0e0; padding: 15px; border-radius: 6px; position: relative; min-height: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; font-weight: bold; }
@@ -87,16 +72,14 @@
 <body>
 
 <div class="container">
-    <!-- ヘッダー（アイコンと設定ボタン） -->
     <div class="header-panel">
         <div class="profile-area">
-            <img id="display-icon" class="user-icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ccc'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" alt="Icon">
+            <img id="display-icon" class="user-icon" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 24 24' fill='%23ccc'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" alt="Icon">
             <div id="display-name" class="user-name">受講生マイページ</div>
         </div>
         <button class="settings-btn" onclick="openModal()">⚙️</button>
     </div>
 
-    <!-- 学習管理 (LMS) パネル -->
     <div class="panel">
         <h2>学習進捗管理</h2>
         <div class="dashboard">
@@ -112,32 +95,22 @@
         <ul id="course-list" class="course-list"></ul>
     </div>
 
-    <!-- 自作単語帳パネル -->
     <div class="panel">
         <h2>自作カスタム単語帳</h2>
-        
-        <!-- 教科・フォルダ作成 -->
         <div class="deck-create-area">
             <input type="text" id="new-deck-title" class="deck-input" placeholder="新しく追加する教科名（例：社会、理科、英語など）">
             <button class="primary-btn" onclick="createDeck()">教科を追加</button>
         </div>
-
-        <!-- 教科切り替えタブ -->
         <div id="deck-tabs" class="deck-tabs"></div>
-
-        <!-- 単語カード追加 -->
         <div id="card-input-zone" class="card-add-area" style="display: none;">
             <input type="text" id="card-front" class="deck-input" placeholder="表（単語・問題）">
             <input type="text" id="card-back" class="deck-input" placeholder="裏（意味・答え）">
             <button class="primary-btn" onclick="addCard()">カードを追加</button>
         </div>
-
-        <!-- 単語カード一覧表示 -->
         <div id="card-list" class="card-list"></div>
     </div>
 </div>
 
-<!-- 設定画面用モーダル -->
 <div id="settings-modal" class="modal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">×</button>
@@ -160,16 +133,14 @@
 </div>
 
 <script>
-    // --- 学習管理用データ ---
     const lessonsMaster = [
         { id: "l1", title: "第1講：基礎単元（第1章）" },
         { id: "l2", title: "第2講：応用問題（第2章）" },
         { id: "l3", title: "第3講：総仕上げ確認テスト" }
     ];
-    let userProgress = JSON.parse(localStorage.getItem('user_lms_progress_v3')) || {};
+    let userProgress = JSON.parse(localStorage.getItem('user_lms_progress_v4')) || {};
 
-    // --- 単語帳用データ（初期設定で 社会・英語・理科 を用意） ---
-    let wordDecks = JSON.parse(localStorage.getItem('user_word_decks_v3')) || {
+    let wordDecks = JSON.parse(localStorage.getItem('user_word_decks_v4')) || {
         "社会": [ { f: "本能寺の変", b: "1582年" } ],
         "英語": [ { f: "apple", b: "りんご" } ],
         "理科": [ { f: "光合成", b: "二酸化炭素と水から酸素を作る" } ]
@@ -184,6 +155,7 @@
 
     function renderLMS() {
         const list = document.getElementById('course-list');
+        if(!list) return;
         list.innerHTML = '';
         let done = 0;
 
@@ -208,11 +180,22 @@
 
     function toggleLMS(id) {
         userProgress[id] = !userProgress[id];
-        localStorage.setItem('user_lms_progress_v3', JSON.stringify(userProgress));
+        localStorage.setItem('user_lms_progress_v4', JSON.stringify(userProgress));
         renderLMS();
     }
 
     function renderDecks() {
         const tabsContainer = document.getElementById('deck-tabs');
+        if(!tabsContainer) return;
         tabsContainer.innerHTML = '';
+
+        Object.keys(wordDecks).forEach(name => {
+            const btn = document.createElement('button');
+            btn.className = `deck-tab ${name === currentDeckName ? 'active' : ''}`;
+            btn.innerText = name;
+            btn.onclick = () => { currentDeckName = name; renderDecks(); };
+            tabsContainer.appendChild(btn);
+        });
+
+        const inputZone = document.getElementById('card-input-zone');
 
